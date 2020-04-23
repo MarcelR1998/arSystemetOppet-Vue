@@ -1,28 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <navbar />
+    <router-view>
+      <!--   <main-component v-bind:storeInfo="storeInfo" @update-store="updateStore" />
+      <about />-->
+    </router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from "./components/Navbar.vue";
+/* import mainComponent from "./components/mainComponent.vue";
+import About from "./components/About.vue"; */
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    Navbar
+    /*     mainComponent,
+    About */
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display&display=swap");
+
+body {
+  margin: 0;
+  background-color: #0b7b3e;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+  outline: none;
+}
+
+h1 {
+  transform: rotate(-5deg);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
 }
 </style>
