@@ -1,8 +1,8 @@
 <template>
-  <li class="favStore">
+  <li @click="selectStore" class="favStore">
     <p>{{favorite.address}}</p>
     <p>{{favorite.city}}</p>
-    <button @click="deleteStore" class="deleteButton" :id="favorite.address">ta bort</button>
+    <button @click="deleteStore" class="deleteButton" id="delete">ta bort</button>
   </li>
 </template>
 <script>
@@ -14,12 +14,54 @@ export default {
   },
   methods: {
     deleteStore() {
-      let storeInfo = { ...this.storeInfo.favorites };
-      delete storeInfo[`${this.favorite.address}`];
+      let storeInfo = { ...this.storeInfo };
+      delete storeInfo.favorites[`${this.favorite.address}`];
       this.updateValue(storeInfo);
+      localStorage.setItem(
+        "favStores",
+        JSON.stringify(this.storeInfo.favorites)
+      );
     },
     updateValue: function(value) {
       this.$emit("update-store", value);
+    },
+    selectStore(e) {
+      if (e.target.id !== "delete") {
+        fetch(`https://bolaget.io/stores?city=${this.favorite.city}&limit=100`)
+          .then(res => {
+            return res.json();
+          })
+          .then(data => {
+            data.forEach(fetchedStore => {
+              if (this.favorite.address == fetchedStore.address) {
+                this.storeInfo.store = fetchedStore;
+                if (fetchedStore.opening_hours[1]) {
+                  let opening = Number(
+                    fetchedStore.opening_hours[0].slice(11, 13)
+                  );
+                  let closing = Number(
+                    fetchedStore.opening_hours[0].slice(17, 19)
+                  );
+                  let time = new Date().getHours();
+                  if (time >= opening && time < closing) {
+                    this.storeInfo.status = "Öppet!";
+                    this.storeInfo.open = true;
+                    this.storeInfo.closed = false;
+                  } else {
+                    this.storeInfo.status = "Stängt";
+                    this.storeInfo.open = false;
+                    this.storeInfo.closed = true;
+                  }
+                } else {
+                  this.storeInfo.status = "Öppetider ej tillgängliga";
+                  this.storeInfo.open = false;
+                  this.storeInfo.closed = false;
+                }
+              }
+            });
+          });
+        this.storeInfo.hideStoreCard = false;
+      }
     }
   }
 };

@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     updateStore(e) {
-      this.storeInfo.favorites = e;
+      this.storeInfo = e;
     }
   }
 };

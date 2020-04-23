@@ -28,6 +28,12 @@ export default {
     updateStore(e) {
       this.$emit("update-store", e);
     }
+  },
+  created() {
+    this.storeInfo.favorites = JSON.parse(localStorage.getItem("favStores"));
+    if (this.storeInfo.favorites == null) {
+      this.storeInfo.favorites = {};
+    }
   }
 };
 </script>

@@ -30,14 +30,8 @@ export default {
           return res.json();
         })
         .then(data => {
-          //Adds placeholder option
-          /*addPlaceholder(); */
-          /*  data.forEach(store => {
-            createAndAppendContent(store);
-          }); */
           this.stores = data;
         });
-      /*       this.city = ""; */
     },
     updateValue: function(value) {
       this.$emit("update:storeInfo", value);

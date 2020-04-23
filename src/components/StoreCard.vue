@@ -32,12 +32,16 @@ export default {
   },
   methods: {
     saveStore() {
-      let storeInfo = { ...this.storeInfo.favorites };
-      storeInfo[`${this.storeInfo.store.address}`] = {
+      let storeInfo = { ...this.storeInfo };
+      storeInfo.favorites[`${this.storeInfo.store.address}`] = {
         address: this.storeInfo.store.address,
         city: this.storeInfo.store.city
       };
       this.updateValue(storeInfo);
+      localStorage.setItem(
+        "favStores",
+        JSON.stringify(this.storeInfo.favorites)
+      );
     },
     updateValue: function(value) {
       this.$emit("update-store", value);
